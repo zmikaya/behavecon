@@ -1,0 +1,162 @@
+#id_new_console_launchers td {
+    padding-left: 10px;
+}
+
+#id_consoles_shared_with_me_div h2, h3 {
+    margin-bottom: 7px;
+    border-bottom: 1px solid #C1EDFF;
+}
+
+#id_consoles_shared_with_me_div table {
+    margin-top: 1ex;
+}
+
+.console_table {
+    margin-bottom: 30px;
+}
+
+.console_table td {
+    vertical-align: top;
+}
+
+.console_kill_link {
+    font-style: italic;
+
+}
+
+.console_table i.icon-edit {
+    opacity: 0.5;
+}
+
+.console_table .info_tooltip {
+    color: black;
+}
+.console_table .info_tooltip:hover {
+    text-decoration: none;
+}
+
+#id_cpu_usage_information {
+    font-size: small;
+    float: right;
+    text-align: right;
+}
+
+#id_refresh_process_list {
+    float: right;
+}
+
+div.tabs_underline {
+    border-top: 3px solid #C1EDFF;
+    clear: both;
+    margin-bottom: 10px;
+}
+
+ul.dashboard_tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dashboard_tab {
+    font-size: 24px;
+    padding: 7px 15px 7px 15px;
+    float: left;
+    margin-bottom: -3px;
+    margin-top: 3px;
+}
+
+.dashboard_tab.selected {
+    border-top-left-radius: 12px;
+    -moz-border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    -moz-border-top-right-radius: 12px;
+    border-left: 3px solid #C1EDFF;
+    border-right: 3px solid #C1EDFF;
+    border-top: 3px solid #C1EDFF;
+    border-bottom: 4px solid #FFFFFF;
+    margin-top: 0px;
+}
+
+.dashboard_tab.selected a {
+    color: #444444;
+    text-decoration: none;
+}
+
+.tabs_container .alert {
+    width: 390px; 
+    float: right; 
+    margin-top: 5px;
+    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 0px;
+    margin-left: auto; 
+ }
+
+.tabs_container .alert:hover {
+    text-decoration: underline;
+ }
+
+
+#inputName {
+    width: 100%;
+}
+
+#logout {
+    margin-top: 12px;
+}
+
+input {
+    border-color: #a94442;
+}
+
+/*counter spinner*/
+
+.spinner {
+  width: 100px;
+}
+.spinner input {
+  text-align: right;
+}
+.input-group-btn-vertical {
+  position: relative;
+  white-space: nowrap;
+  width: 1%;
+  vertical-align: middle;
+  display: table-cell;
+}
+.input-group-btn-vertical > .btn {
+  display: block;
+  float: none;
+  width: 100%;
+  max-width: 100%;
+  padding: 8px;
+  margin-left: -1px;
+  position: relative;
+  border-radius: 0;
+}
+.input-group-btn-vertical > .btn:first-child {
+  border-top-right-radius: 4px;
+}
+.input-group-btn-vertical > .btn:last-child {
+  margin-top: -2px;
+  border-bottom-right-radius: 4px;
+}
+.input-group-btn-vertical i{
+  position: absolute;
+  top: 0;
+  left: 4px;
+}
+
+/*end*/
+
+tbody {
+    height: 100px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+button a {
+    color: white;
+    text-decoration: none;
+}

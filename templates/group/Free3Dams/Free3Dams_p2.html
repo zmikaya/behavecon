@@ -1,0 +1,45 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-lg-push-1 left-align-width">
+                    <h1><b>Overview</b></h1>
+                    <p>Imagine that you are part of a committee
+                        that has to decide which one of three existing dams
+                        you would want to repair. Naturally, you should
+                        repair the dam that has the highest chance to fail.
+                    </p>
+                    <p>You will be given some information about the current
+                        status of each dam. You will then decide on your
+                        own which dam to repair. After making your decision,
+                        you will be randomly and anonymously placed in a
+                        group of three people. Your group will discuss and
+                        decide which dam to repair through anonymous voting.
+                        The chosen dam will be the one that receives two
+                        or more votes (In the case that each dam receives
+                        one vote, a dam will be randomly chosen for your group).
+                    </p>
+                    <!--Payment-->
+                    {% if payment_flag %}
+                    <p>After completing the tasks, you will be paid a
+                        participation fee plus some additional earnings
+                        based on your decisions and your group's decisions.
+                    </p>
+                    {% endif %}
+                    <!--Payment-->
+                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+                </div>
+                <div class="center">
+                    <p class="inline continue">Please press CONTINUE to proceed to the next page.</p>
+                    <!--<button type="button" class="btn btn-primary next" onclick="ajaxGetPage('p3')">Continue</button>-->
+                    <a class="btn btn-primary next" href="/Category3Dams/p3">Continue</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+{% endblock %}

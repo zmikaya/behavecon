@@ -1,0 +1,48 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+        {% block body_block %}
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 center">
+                        <h1><b>Welcome to the experiment.</b></h1>
+                        <p>Thank you for your participation.</p>
+                        <p>
+                            Our goal is to study how people make decisions.
+                            If you have any questions, please raise your hand
+                            and a helper will assist you. From now until the end
+                            of the session, please do not communicate with other
+                            participants in the room.
+                        </p>
+                        {% if message %}
+                            <h4 class="error-msg">{{ message }}</h4>
+                        {% endif %}
+                        <form method="post" action="/Category3Dams/p1">
+                            {% csrf_token %}
+                            <div>
+                                <!--<div class="row">-->
+                                <!--    <p class="inline">Please enter your username here:</p>-->
+                                <!--    <input type="text" class="form-control inline enterinfo" placeholder="username">-->
+                                <!--</div>-->
+                                
+                                <p class="inline">Please enter your session name here:</p>
+                                <input name="session" type="text" class="form-control inline enterinfo" placeholder="session">
+                                <p class="inline">Please enter your username here:</p>
+                                <input name="username" type="text" class="form-control inline enterinfo" placeholder="username">
+                            </div>
+                            <div>
+                                <p class="inline continue">Please press CONTINUE when your are finished.</p>
+                                <!--<button type="button" class="btn btn-primary next" onclick="ajaxGetPage('p1')">Continue</button>-->
+                                <button class="btn btn-primary next" type="submit">Continue</button>
+                            </div>
+                        </form>
+                        <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+        {% endblock %}

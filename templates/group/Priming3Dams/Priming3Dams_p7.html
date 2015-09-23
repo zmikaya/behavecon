@@ -1,0 +1,86 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 left-align">
+                    <h1><b>Procedure</b></h1>
+                    <p>You will go through the following steps:</p>
+                    <ul>
+                        <li>Step 1. You will be given some information
+                            about the presence of conditions A, B, C, D,
+                            E, and F at Dam 1, Dam 2, and Dam 3. Different
+                            participants may receive different
+                            information.
+                        </li>
+                        <li>Step 2. You will be given 5 minutes to
+                            decide which dam you should repair.
+                        </li>
+                        <li>Step 3. You will be randomly and anonymously
+                            placed in a group of three participants.
+                        </li>
+                        <li>Step 4. Your group will discuss among yourselves 
+                            which dam to repair using an
+                            online chat box. We suggest that your group
+                            discuss the following questions one by one:
+                            <ol type="a">
+                                <li>What are the conditions present at Dam 1?</li>
+                                <li>What are the conditions present at Dam 2?</li>
+                                <li>What are the conditions present at Dam 3?</li>
+                                <li>Which dam should you repair?</li>
+                            </ol>
+                            <b>Note:</b> Your group can discuss up to 20
+                            minutes. However, feel free
+                            to end the discussion earlier.
+                        </li>
+                        <li>Step 5. Once the group discussion ends, each
+                            participant of your group will vote
+                            anonymously on which dam to repair. The dam
+                            chosen by your group will be the one that
+                            receives two or more votes (In the case that
+                            each dam receives one vote, a dam will be
+                            randomly chosen for your group).</li>
+                    </ul>
+                    <!--Payment-->
+                    {% if payment_flag %}
+                    <h1><b>Payoff</b></h1>
+                    <p>Your total earning = $5 participation fee + 
+                        additional earnings.
+                    </p>
+                    <p>Your additional earnings are the sum of the
+                        following two items:
+                    </p>
+                    <p>1. Given your information, if you make the correct
+                        conclusion about whether a condition is present
+                        or not at a dam, you earn an extra $1. That is, 
+                        if you make the correct conclusion about all six
+                        conditions at the three dams, you earn an extra
+                        $1 x 18 = $18.
+                    </p>
+                    <p>2. If your group has chosen the correct dam to
+                        repair, each participant in your group earns
+                        an extra $5.
+                    </p>
+                    <p><br>As soon as your group makes a decision, you
+                        will be directed to complete a survey. After
+                        completing your survey, you will collect your
+                        earnings in private and be directed to leave the
+                        lab.
+                    </p>
+                    {% endif %}
+                    <!--Payment-->
+                    <div class="damContinue">
+                        <p class="inline continue">Please press CONTINUE to proceed to the next page.</p>
+                        <!--<button type="button" class="btn btn-primary next" onclick="ajaxGetPage('p8')">Continue</button>-->
+                        <a class="btn btn-primary next" href="/Category3Dams/p8">Continue</a>
+                    </div>
+                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+{% endblock %}

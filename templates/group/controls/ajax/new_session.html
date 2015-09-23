@@ -1,0 +1,10 @@
+{% if td %}
+    <tr class="hoverable">
+        {% for element in td %}
+            <td>{{ element }}</td>
+        {% endfor %}
+        <td>
+            <button id={{td.0}} class="button btn-danger"><a href="/profile">End</a></button>
+        </td>
+    </tr>
+{% endif %}

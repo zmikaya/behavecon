@@ -1,0 +1,78 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 center">
+                    <h1>Waiting for other players</h1>
+                    <p></p>
+                    <!--<div>-->
+                    <!--    <p class="inline">The SONA ID you entered is: <b>{{ id }}</b></p>-->
+                    <!--</div>-->
+                    <p>You will be redirected as soon as all
+                        players are ready. <br>Please wait.</p>
+                    <!--<div>-->
+                    <!--    <button type="button" class="btn btn-primary next" onclick="ajaxGetPage('p2')">Continue</button>-->
+                        <!--determine better way of fixing id-->
+                    <!--    <button id="p1" type="button" class="btn btn-primary next">Re-enter Session</button>-->
+                    <!--</div>-->
+                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    <script type="text/javascript" >
+        // perform ajax check every 5 seconds to see if all players are ready
+        function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    //  perform check
+    function checkReady(){
+        console.log('test')
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+          type: "POST",
+          url: "/Category3Dams/p{{num}}",
+          data: {
+              'csrfmiddlewaretoken': csrftoken,
+            },
+            success: updatePage,
+            dataType: 'html'
+        });
+    };
+    
+    // handles the returned html/data from Django
+    // clears existing body, then replaces it with returned html
+    function updatePage(data, textStatus, jqXHR){
+        if (data) {
+            console.log("updating")
+            var data = $.parseHTML(data);
+            $("body").empty()
+            for (var i=0; i<data.length; i++){
+              $("body").append(data[i])
+            }
+            clearInterval(refresh)
+        }
+    }
+    
+    var refresh = setInterval(checkReady, 5000);
+    
+    </script>
+{% endblock %}

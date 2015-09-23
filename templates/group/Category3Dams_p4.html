@@ -1,0 +1,64 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 split">
+                    <div class="left text">
+                        <h1><b>Chance that Dam 1 fails</b></h1>
+                        <p>The chance that a dam fails depends on the number of
+                            conditions that are present. More specifically,
+                            Table 1 summarizes the chance that Dam 1 will fail
+                            based on whether one or more of conditions A, B, C,
+                            D, E, and F is currently present at Dam 1:
+                        </p>
+                        <ul class="bullet-points">
+                          <li>If all six conditions are present at Dam 1, Dam 1
+                              will fail with a 50% chance.
+                          </li>
+                          <li>If exactly five of the six conditions are present
+                              (for example, conditions A, B, C, D, and E are
+                              present but condition F is not), Dam 1 will
+                              fail with a 40% chance.
+                          </li>
+                          <li>If exactly four of the six conditions are present
+                              (for example, conditions A, B, C, and D are
+                              present but conditions E and F are not), Dam 1 will
+                              fail with a 30% chance.
+                          </li>
+                          <li>If exactly three of the six conditions are present
+                              (for example, conditions A, B, and C are
+                              present but conditions D, E and F are not), Dam 1 
+                              will fail with a 20% chance.
+                          </li>
+                          <li>If exactly two of the six conditions are present
+                              (for example, conditions A and B are
+                              present but conditions C, D, E and F are not), 
+                              Dam 1 will fail with a 15% chance.
+                          </li>
+                          <li>If only one of the six conditions is present,
+                              Dam 1 will fail with a 10% chance.
+                          </li>
+                          <li>If none of the conditions are present, Dam 1 will
+                              fail with a 5% chance.
+                          </li>
+                        </ul>
+                    </div>
+                    <div class="right">
+                        <img src="{% static "images/Dam1.jpg" %}" class="damTable"></img>
+                    </div>
+                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+                </div>
+                <div class="damContinue">
+                    <p class="inline continue">Please press CONTINUE to proceed to the next page.</p>
+                    <!--<button type="button" class="btn btn-primary next" onclick="ajaxGetPage('p5')">Continue</button>-->
+                    <a class="btn btn-primary next" href="/Category3Dams/p5">Continue</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+{% endblock %}

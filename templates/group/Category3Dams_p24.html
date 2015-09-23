@@ -1,0 +1,154 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="progess-northwest">
+                <h4><b>Step 4 (Page 6/7)</b></h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10 center">
+                    <p class="no-margin">Based on the group discussion, please 
+                    enter your answer for the following question:
+                    <br>
+                    (Question c). What are the conditions present at <b>Dam 3</b>?</p>
+                    <div class="center">
+                        <ul class="list-no-style">
+                            <li class="list-inline">(1). Is Condition A present at Dam 3?</li>
+                            <table class="table-inline">
+                                <tr>
+                                    <td><input type="radio" name="1" value="present"></td>
+                                    <td>Present</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="1" value="not present"></td>
+                                    <td class="npresent">Not Present</td>
+                                </tr>
+                            </table>
+                            <li class="list-inline">(2). Is Condition B present at Dam 3?</li>
+                            <table class="table-inline">
+                                <tr>
+                                    <td><input type="radio" name="2" value="present"></td>
+                                    <td>Present</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="2" value="not present"></td>
+                                    <td class="npresent">Not Present</td>
+                                </tr>
+                            </table>
+                            <li class="list-inline">(3). Is Condition C present at Dam 3?</li>
+                            <table class="table-inline">
+                                <tr>
+                                    <td><input type="radio" name="3" value="present"></td>
+                                    <td>Present</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="3" value="not present"></td>
+                                    <td class="npresent">Not Present</td>
+                                </tr>
+                            </table>
+                            <li class="list-inline">(4). Is Condition D present at Dam 3?</li>
+                            <table class="table-inline">
+                                <tr>
+                                    <td><input type="radio" name="4" value="present"></td>
+                                    <td>Present</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="4" value="not present"></td>
+                                    <td class="npresent">Not Present</td>
+                                </tr>
+                            </table>
+                            <li class="list-inline">(5). Is Condition E present at Dam 3?</li>
+                            <table class="table-inline">
+                                <tr>
+                                    <td><input type="radio" name="5" value="present"></td>
+                                    <td>Present</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="5" value="not present"></td>
+                                    <td class="npresent">Not Present</td>
+                                </tr>
+                            </table>
+                            <li class="list-inline">(6). Is Condition F present at Dam 3?</li>
+                            <table class="table-inline">
+                                <tr>
+                                    <td><input type="radio" name="6" value="present"></td>
+                                    <td>Present</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="6" value="not present"></td>
+                                    <td class="npresent">Not Present</td>
+                                </tr>
+                            </table>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 center">
+                    <div>
+                        <p class="inline continue">Please press CONTINUE to proceed to the next page.</p>
+                        <!--<button type="button" class="btn btn-primary next" onclick="ajaxGetPage('p25')">Continue</button>-->
+                        <a id="continue" class="btn btn-primary next"  data-toggle="modal" data-target="#myModal">Continue</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+                  <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Incomplete Response</h4>
+                        </div>
+                        <div class="modal-body">
+                          <p id="incorrect">You must answer all of the questions.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    <script type="text/javascript">
+        var responses = {};
+        $("input").on( "click", 
+            function() {
+                $("input:checked").each(
+                    function(){
+                        var index = $(this).attr("name")
+                        responses[index] = this.value;
+                    }
+                )
+                checkContinue();
+            }
+        );
+        
+        function checkContinue() {
+            if (Object.keys(responses).length == $("input").length/2){
+                // $("#continue").attr("onclick", "ajaxGetPage('p13', responses)")
+                $("#continue").attr("onclick", "ajaxSendData('p25', responses)")
+                $("#continue").attr("href", "/Category3Dams/p25")
+                $("#continue").removeAttr("data-toggle")
+                $("#continue").removeAttr("data-target")
+
+            }
+            else {
+                $("#incorrect").text("You must answer all of the questions.")
+                // $("#continue").removeAttr("onclick")
+                $("#continue").removeAttr("onclick")
+                $("#continue").removeAttr("href")
+                $("#continue").attr("data-toggle", "modal")
+                $("#continue").attr("data-target", "#myModal")
+            }
+        }
+    </script>
+{% endblock %}
+

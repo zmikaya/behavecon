@@ -1,0 +1,149 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 left-align">
+                    <h1><b>Practice Questions for Instructions (Page 1/2)</b></h1>
+                    <p>Please answer the following questions. Each question
+                        has only one correct answer. You have to answer all
+                        questions correctly to be able to proceed to Page 2 of
+                        the practice questions.
+                    </p>
+                    <div class="row practice-ml-row">
+                        <div class="col-md-6 col-lg-6">
+                            <p>1. In your decision, you will need to consider 
+                                other conditions beyond conditions A, B, C, D, 
+                                E, and F discussed in the instructions. 
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-lg-6 border">
+                            <form class="table-center" action="">
+                                <input type="radio" name="q0" value="true">True<br>
+                                <input type="radio" name="q0" value="false">False
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row practice-ml-row">
+                        <div class="col-md-6 col-lg-6">
+                            <p>2. If you know that at Dam 1, conditions A and C 
+                            are present but condition B, D, E, F are not, what 
+                            is the chance that Dam 1 will fail? 
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-lg-6 border">
+                            <form action="">
+                                <input type="radio" name="q1" value="10%">10%<br>
+                                <input type="radio" name="q1" value="15%">15%<br>
+                                <input type="radio" name="q1" value="20%">20%<br>
+                                <input type="radio" name="q1" value="30%">30%
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row practice-ml-row">
+                        <div class="col-md-6 col-lg-6 practice-ml">
+                            <p>3. If you know that at Dam 2, conditions A, B, E, 
+                                and  F are present but conditions C and D are 
+                                not, what is the chance that Dam 2 will fail? 
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-lg-6 border">
+                            <form action="">
+                                <input type="radio" name="q2" value="17%">17%<br>
+                                <input type="radio" name="q2" value="30%">30%<br>
+                                <input type="radio" name="q2" value="43%">43%<br>
+                                <input type="radio" name="q2" value="56%">56%
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 practice-ml">
+                            <p>4. If you know that at Dam 3, conditions C, D and E 
+                            are present but conditions A, B and F are not, what 
+                            is the chance that Dam 3 will fail? 
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-lg-6 border">
+                            <form action="">
+                                <input type="radio" name="q3" value="8%">8%<br>
+                                <input type="radio" name="q3" value="11%">11%<br>
+                                <input type="radio" name="q3" value="14%">14%<br>
+                                <input type="radio" name="q3" value="26%">26%
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Trigger the modal with a button -->
+                    <div class="damContinue">
+                        <p class="inline continue">Please press CONTINUE to proceed to Page 2 of the practice questions.</p>
+                        <!--<button id="continue" type="button" class="btn btn-primary next" data-toggle="modal" data-target="#myModal">Continue</button>-->
+                        <a id="continue" class="btn btn-primary next"  data-toggle="modal" data-target="#myModal">Continue</a>
+                    </div>
+                  <!-- Modal -->
+                  <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Incorrect Response</h4>
+                        </div>
+                        <div class="modal-body">
+                          <p id="incorrect">You must answer all of the questions.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        /* determine user selected responses for comparison to the correct
+            responses */
+        var responses = {};
+        $("input").on( "click", 
+            function() {
+                $("input:checked").each(
+                    function(){
+                        var index = $(this).attr("name")[1]
+                        responses[index] = this.value;
+                    }
+                )
+                checkCorrect();
+            }
+        );
+        
+        var correct = ["false", "15%", "30%", "14%"];
+        function checkCorrect() {
+            if (Object.keys(responses).length != correct.length) {
+                $("#incorrect").text("You must answer all of the questions.")
+            }
+            else {
+                for (var i=0; i<Object.keys(responses).length; i++) {
+                    if (responses[i] != correct[i]) {
+                        var num = i+1;
+                        $("#incorrect").text("Your answer to question " + num + " is incorrect.")
+                        // $("#continue").removeAttr("onclick")
+                        $("#continue").removeAttr("href")
+                        $("#continue").attr("data-toggle", "modal")
+                        $("#continue").attr("data-target", "#myModal")
+                        console.log('test')
+                        return
+                    }
+                }
+                // $("#continue").attr("onclick", "ajaxGetPage('p9')")
+                $("#continue").attr("href", "/Category3Dams/p9")
+                $("#continue").removeAttr("data-toggle")
+                $("#continue").removeAttr("data-target")
+                console.log("correct")
+            }
+        }
+    </script>
+    <!-- /#page-content-wrapper -->
+{% endblock %}

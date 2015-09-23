@@ -1,0 +1,95 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="progess-northwest">
+                <h4><b>Step 1</b></h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8 left-align-no-margin">
+                    <div class="center">
+                        <p>You are given the following information 
+                            about Dam 1, Dam 2, and Dam 3: <br>
+                            <h1 id="black-border"><b>Information about Dam 1, Dam 2, and Dam 3</b></h1>
+                            <br>
+                            <br>
+                        </p>
+                    </div>
+                    <p><b>Two </b>years ago, maintenance practices preventing 
+                        conditions A, B, C, D, E, and F were implemented at Dam 1, 
+                        Dam 2 and Dam 3. On average, the maintenance practices are 
+                        effective for <b>five</b> years. However, a recent analysis 
+                        has: 
+                    </p>
+                    {% block info_block %}{% endblock %}
+                    <div class="center">
+                        <form class="table-3-center" action="/Category3Dams/p18" method="post">
+                            {% csrf_token %}
+                            <p>Which dam will you choose to repair?</p>        
+                            <input type="radio" name="damChoice" value="Dam 1">Dam 1<br>
+                            <input type="radio" name="damChoice" value="Dam 2">Dam 2<br>
+                            <input type="radio" name="damChoice" value="Dam 3">Dam 3<br>
+                            <p class="inline continue">Please press CONTINUE to proceed to the next page.</p>
+                            <input id="continue" class="btn btn-primary next" data-toggle="modal" data-target="#myModal" value="Continue">
+                        </form>
+                        <!--<p class="inline continue">Please press CONTINUE to proceed to the next page.</p>-->
+                        <!--<a class="btn btn-primary next" href="/Category3Dams/p12">Continue</a>-->
+                        <!--<p class="inline continue">Please press CONTINUE to proceed to the next page.</p>-->
+                        <!--<a id="continue" class="btn btn-primary next"  data-toggle="modal" data-target="#myModal">Continue</a>-->
+                    </div>
+                    <!-- Modal -->
+                      <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog modal-sm">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              <h4 class="modal-title">Incomplete Response</h4>
+                            </div>
+                            <div class="modal-body">
+                              <p id="incorrect">You must answer the question.</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    <script type="text/javascript">
+        var responses = {};
+        $("input").on( "click", 
+            function() {
+                $("input:checked").each(
+                    function(){
+                        var index = $(this).attr("name")
+                        responses[index] = this.value;
+                    }
+                )
+                checkContinue();
+            }
+        );
+        
+        function checkContinue() {
+            if (Object.keys(responses).length == 1){
+                $("#continue").attr("type", "submit")
+                $("#continue").removeAttr("data-toggle")
+                $("#continue").removeAttr("data-target")
+            }
+            else {
+                $("#incorrect").text("You must answer all of the questions.")
+                $("#continue").attr("data-toggle", "modal")
+                $("#continue").attr("data-target", "#myModal")
+                
+            }
+        }
+    </script>
+{% endblock %}

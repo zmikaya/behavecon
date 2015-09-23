@@ -1,0 +1,107 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="progess-northwest">
+                <h4><b>Step 2 (Page 6/6)</b></h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-7 left-align">
+                    <p>Here are the <font color="lime"><b>correct answers</b></font>
+                        based on your information:</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 left-align">
+                    <p>4. Consider <b>Condition D</b>: Animal burrows at the 
+                        upstream of the dam.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 left-align">
+                    <ul style="list-style-type:none">
+                        <li>(4.1). Condition D is <u>{{ans.0}}</u> at Dam 1.</li>
+                        <li>(4.2). Condition D is <u>{{ans.1}}</u> at Dam 2.</li>
+                        <li>(4.3). Condition D is <u>{{ans.2}}</u> at Dam 3.</li>
+                    </ul>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-5 left-align">
+                    <div class="row"><div class="col-lg-5"></div></div>
+                    <ul style="list-style-type:none">
+                        <li>You answered Question (4.1) {{results.0}}.</li>
+                        <li>You answered Question (4.2) {{results.1}}.</li>
+                        <li>You answered Question (4.3) {{results.2}}.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 left-align">
+                    <p>5. Consider <b>Condition E</b>: Decaying tree roots at 
+                        the bottom of the dam.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 left-align">
+                    <ul style="list-style-type:none">
+                        <li>(5.1). Condition E is <u>{{ans.3}}</u> at Dam 1.</li>
+                        <li>(5.2). Condition E is <u>{{ans.4}}</u> at Dam 2.</li>
+                        <li>(5.3). Condition E is <u>{{ans.5}}</u> at Dam 3.</li>
+                    </ul>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-5 left-align">
+                    <ul style="list-style-type:none">
+                        <li>You answered Question (5.1) {{results.3}}.</li>
+                        <li>You answered Question (5.2) {{results.4}}.</li>
+                        <li>You answered Question (5.3) {{results.5}}.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 left-align">
+                    <p>6. Consider <b>Condition F</b>: Sinkholes near the 
+                        embankment.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 left-align">
+                    <ul style="list-style-type:none">
+                        <li>(6.1). Condition F is <u>{{ans.6}}</u> at Dam 1.</li>
+                        <li>(6.2). Condition F is <u>{{ans.7}}</u> at Dam 2.</li>
+                        <li>(6.3). Condition F is <u>{{ans.8}}</u> at Dam 3.</li>
+                    </ul>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-5 left-align">
+                    <ul style="list-style-type:none">
+                        <li>You answered Question (6.1) {{results.6}}.</li>
+                        <li>You answered Question (6.2) {{results.7}}.</li>
+                        <li>You answered Question (6.3) {{results.8}}.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 left-align">
+                    <p>Based on your information, the correct dam to repair is <u>Dam 1</u>.</p>
+                </div>
+                <div class="col-lg-5 left-align">
+                    <ul style="list-style-type:none">
+                        <li>You have chosen the {{damChoice}} dam to repair.</li>
+                    </ul>
+                </div>
+            </div>
+                <div class="center">
+                    <p class="inline continue">Please press CONTINUE to proceed to the next page.</p>
+                    <!--<button type="button" class="btn btn-primary next" onclick="ajaxGetPage('p18')">Continue</button>-->
+                    <a id="continue" class="btn btn-primary next"  href="/Category3Dams/p18">Continue</a>
+                </div>
+                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+{% endblock %}

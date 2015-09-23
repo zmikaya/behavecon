@@ -1,0 +1,48 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="progess-northwest">
+                <h4><b>Step 5 (Page 2/2)</b></h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10 center">
+                    <p class="no-margn">
+                        <b>Voting Results</b>
+                    </p>
+                    <p class="no-margin">
+                        Dam 1 receives {{count.0}} votes.
+                    </p>
+                    <p class="no-margin">
+                        Dam 2 receives {{count.1}} votes.
+                    </p>
+                    <p class="no-margin">
+                        Dam 3 receives {{count.2}} votes.
+                    </p>
+                    <p class="no-margin">
+                        The dam chosen by your group is <b>Dam {{selection}}</b>.
+                    </p>
+                    <p class="no-margin">
+                        The correct dam to repair is <b>Dam 3</b>.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 center">
+                    <div>
+                        <p class="inline continue">Please press CONTINUE to proceed to the next page.</p>
+                        <!--<button type="button" class="btn btn-primary next" onclick="ajaxGetPage('p25')">Continue</button>-->
+                        <a id="continue" class="btn btn-primary next" href="/Free3Dams/p22">Continue</a>
+                    </div>
+                </div>
+            </div>
+                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+{% endblock %}
+

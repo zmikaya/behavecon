@@ -1,0 +1,131 @@
+.center {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 3%;
+    line-height: 160%;
+}
+
+.left-align {
+    font-size: 20px;
+    margin-top: 3%;
+    line-height: 160%;
+}
+
+.left-align-width {
+    font-size: 20px;
+    margin-top: 3%;
+    line-height: 160%;
+    width: 80% !important;
+}
+
+.left-align-no-margin {
+    font-size: 20px;
+    margin-top: 0;
+    line-height: 160%;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.continue {
+    margin-top: 10%;
+}
+
+.text {
+    font-size: 20px;
+    line-height: 160%;
+}
+
+.left {
+    margin-top: 3%;
+    width: 50%;
+    float: left;
+}
+
+.right {
+    margin-top: 3%;
+    width: 50%;
+    float: right;
+}
+
+.damTable {
+    max-height: 100%;
+    max-width: 100%;
+    margin-top: 15%;
+}
+
+.damContinue {
+    float: right;
+    font-size: 20px;
+    padding-right: 5%;
+}
+
+.bullet-points li {
+    margin-bottom: 2%;
+}
+
+.practice-ml-row{
+    height: 150px;
+    border-bottom: thick solid #A69F9F;
+}
+
+.col-md-6 p{
+    margin: 0;
+    transform: translateY(50%);
+}
+
+.table-center {
+    transform: translateY(50%);
+}
+
+.table-3-center {
+    transform: translateY(20%);
+}
+
+.list-no-style {
+    list-style-type: none;
+}
+
+.list-inline {
+    vertical-align: top;
+}
+
+.table-inline {
+    display: inline-block;
+}
+.border{
+    height: 100%;
+    border-left: thick solid #A69F9F;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.chat {
+    margin-top: 4%;
+}
+
+.enterinfo {
+    width: 15%;
+}
+
+.error-msg {
+    color: red;
+}
+
+.npresent {
+    padding-left: 35px;
+}
+
+
+
+#leftAnswers {
+    margin-top: 5%;
+}
+
+#black-border {
+    border: solid black;
+}
+

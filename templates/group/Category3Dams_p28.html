@@ -1,0 +1,48 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="progess-northwest">
+                <h4><b>Step 5 (Page 2/2)</b></h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10 center">
+                    <p class="no-margn">
+                        <b>Congratulations!</b>
+                    </p>
+                    <p class="no-margin">
+                        You have completed the task. 
+                        <!--Payment-->
+                        {% if payment_flag %}
+                        You have earned 
+                        Earnings US dollars. You will next be directed to 
+                        complete a survey. You will be paid your earnings 
+                        after you have completed the survey.
+                        {% endif %}
+                    </p>
+                    <!--Payment-->
+                    <br>
+                    <p class="no-margin">
+                        Please stay in your seat and do not touch the 
+                        computer any more. 
+                        <!--Please raise your hand so that a -->
+                        <!--helper could come to your seat to start the survey for -->
+                        <!--you. While you are waiting, please do not stand up or -->
+                        <!--communicate with other participants.-->
+                    </p>
+                    <br>
+                    <p class="no-margin">
+                        <font color="red">Thank you for your cooperation.</font>
+                    </p>
+                </div>
+            </div>
+                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+{% endblock %}
+

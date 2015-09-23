@@ -1,0 +1,127 @@
+{% extends 'sidebar-base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 left-align">
+                    <h1><b>Practice Questions for Instructions (Page 2/2)</b></h1>
+                    <p>Please answer the following questions. Each question
+                        has only one correct answer. You have to answer all
+                        questions correctly to be able to proceed to start the
+                        task.
+                    </p>
+                    <div class="row practice-ml-row">
+                        <div class="col-md-6 col-lg-6">
+                            <p>5. Suppose you know that Dam 1 will fail with a 
+                                20% chance, Dam 2 will fail with a 17% chance and 
+                                Dam 3 will fail with a 11% chance, which dam should 
+                                you repair? 
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-lg-6 border">
+                            <form class="table-3-center" action="">
+                                <input type="radio" name="q4" value="dam1">Dam 1<br>
+                                <input type="radio" name="q4" value="dam2">Dam 2<br>
+                                <input type="radio" name="q4" value="dam3">Dam 3
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row practice-ml-row">
+                        <div class="col-md-6 col-lg-6">
+                            <p>6. Each participant in your group will receive 
+                                the same information about the three dams. 
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-lg-6 border">
+                            <form class="table-center" action="">
+                                <input type="radio" name="q5" value="true">True<br>
+                                <input type="radio" name="q5" value="false">False<br>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 practice-ml">
+                            <p>7. What is the maximum possible amount of 
+                                earnings for you in this experiment?
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-lg-6 border">
+                            <form action="">
+                                <input type="radio" name="q6" value="$18">$18<br>
+                                <input type="radio" name="q6" value="$23">$23<br>
+                                <input type="radio" name="q6" value="$28">$28
+                            </form>
+                        </div>
+                    </div>
+                    <div class="damContinue">
+                        <p class="inline continue">Please press CONTINUE to proceed to the next page.</p>
+                        <!--<button id="continue" type="button" class="btn btn-primary next" data-toggle="modal" data-target="#myModal">Continue</button>-->
+                        <a id="continue" class="btn btn-primary next"  data-toggle="modal" data-target="#myModal">Continue</a>
+                    </div>
+                    <!-- Modal -->
+                  <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Incorrect Response</h4>
+                        </div>
+                        <div class="modal-body">
+                          <p id="incorrect">You must answer all of the questions.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        /* determine user selected responses for comparison to the correct
+            responses */
+        var responses = {};
+        $("input").on( "click", 
+            function() {
+                $("input:checked").each(
+                    function(){
+                        var index = $(this).attr("name")[1]
+                        responses[index] = this.value;
+                    }
+                )
+                checkCorrect();
+            }
+        );
+        
+        var correct = ["dam1", "false", "$28"];
+        function checkCorrect() {
+            if (Object.keys(responses).length != correct.length) {
+                $("#incorrect").text("You must answer all of the questions.")
+            }
+            else {
+                for (var i=0; i<Object.keys(responses).length; i++) {
+                    if (responses[i+4] != correct[i]) {
+                        var num = i+1+4;
+                        $("#incorrect").text("Your answer to question " + num + " is incorrect.")
+                        // $("#continue").removeAttr("onclick")
+                        $("#continue").removeAttr("href")
+                        $("#continue").attr("data-toggle", "modal")
+                        $("#continue").attr("data-target", "#myModal")
+                        return
+                    }
+                }
+                // $("#continue").attr("onclick", "ajaxGetPage('p10')")
+                $("#continue").attr("href", "/Category3Dams/p10")
+                $("#continue").removeAttr("data-toggle")
+                $("#continue").removeAttr("data-target")
+            }
+        }
+    </script>
+    <!-- /#page-content-wrapper -->
+{% endblock %}

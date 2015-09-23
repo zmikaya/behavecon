@@ -1,0 +1,247 @@
+{% load staticfiles %}
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Player Progress</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Consoles : frelacer : PythonAnywhere">
+        <meta name="author" content="PythonAnywhere LLP">
+        <meta name="google-site-verification" content="O4UxDrfcHjC44jybs2vajc1GgRkTKCTRgVzeV6I9V14" />
+
+
+        <!-- Le styles -->
+        <!--<link rel="stylesheet" href="/static/CACHE/css/36ebb8460e52.css" type="text/css" media="screen" />-->
+        <!--<link rel="stylesheet" href="/static/CACHE/css/62de1ff2de54.css" type="text/css" media="screen" />-->
+        <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+        <link href="{% static "css/profile.css" %}" rel="stylesheet">
+        <script type="text/javascript" src="{% static "js/jquery.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!--<link rel="stylesheet" href="/static/CACHE/css/cc78b2686e6e.css" type="text/css" />-->
+
+    </head>
+
+     <body>
+
+    <div class="container" ng-app="myApp">
+        <div class="tabs_container">
+            <ul class="dashboard_tabs">
+                <li class="dashboard_tab selected"><a id="id_consoles_link" href="/profile">Admin Console</a></li>
+                <li class="dashboard_tab selected"><a id="id_consoles_link" href="#">Player Progress</a></li>
+                <!--<li class="dashboard_tab"><a id="id_files_link" href="/user/frelacer/files/home/frelacer">Data</a></li>-->
+            </ul>
+    </div>
+    
+    <div class="row">
+        <div id="logout" class="col-lg-3 col-lg-push-8">
+            <a href="/logout" id="id_logout_link">Log out</a>
+        </div>
+    </div>
+    
+    <div class="tabs_underline"></div>
+    
+    
+          <div id="id_my_consoles_div">
+    
+            <h3>Start a new session:</h3>
+    
+            <!--<div id="id_new_console_launchers">-->
+                
+            
+                
+            <!--    <div class="row">-->
+            <!--        <div class="col-lg-3">-->
+            <!--            <label for="inputName" class="sr-only">Session name</label>-->
+            <!--            <p>Session Name:</p>-->
+            <!--            <input name="session" type="text" id="inputName" class="form-control" placeholder="Session Name" required autofocus>-->
+            <!--        </div>-->
+            <!--        <div class="col-lg-2">-->
+            <!--            <div class="container">-->
+            <!--              <p>Number of Players:</p>-->
+            <!--              <div class="input-group spinner">-->
+            <!--                <input id="spinner" type="text" class="form-control" value="0">-->
+            <!--                <div class="input-group-btn-vertical">-->
+            <!--                  <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>-->
+            <!--                  <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--            </div>-->
+            <!--        </div>-->
+            <!--        <div class="col-lg-2">-->
+            <!--            <p>Session Type:</p>-->
+            <!--            <div class="dropdown">-->
+            <!--              <button id="sessionType" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Session Type-->
+            <!--              <span class="caret"></span></button>-->
+            <!--              <ul class="dropdown-menu">-->
+            <!--                <li><a class="dropdown-item" href="#">Category 3Dams</a></li>-->
+            <!--                <li><a class="dropdown-item" href="#">Free 3Dams</a></li>-->
+            <!--                <li><a class="dropdown-item" href="#">Priming 3Dams</a></li>-->
+            <!--              </ul>-->
+            <!--            </div>-->
+            <!--        </div>-->
+            <!--        <div class="col-lg-2">-->
+            <!--            <p>Create the Session</p>-->
+            <!--             <button id="createSession" onclick="createSession()" class="btn btn-primary dropdown-toggle disabled">Create Session</span></button>-->
+            <!--        </div>-->
+            <!--    </div>-->
+                
+            <!--    <div class="clear"></div>-->
+            <!--</div>-->
+    
+            <h3 id="id_my_consoles_header">Player Progress:</h3>
+            
+            <table id="id_running_processes" class="table table-striped table-hover table-condensed" ng-show="!ajax_error && fetched_yet" ng-cloak>
+                  <thead>
+                      <tr>
+                          <th>Username</th>
+                          <th>Session</th>
+                          <th>Group</th>
+                          <th>Progress</th>
+                      </tr>
+                  </thead>
+    
+                  <tbody id="progress_list">
+                      {% if data %}
+                          {% for row in data %}
+                              <tr class="hoverable">
+                              {% for element in row %}
+                                  <td>{{ element }}</td>
+                              {% endfor %}
+                                  <!--<td>-->
+                                      <!--<a class="btn btn-danger" href="/kill_session">End</a>-->
+                                  <!--    <button id={{session.0}} class="button btn-primary"><a class="data" href="/data/{{session.0}}">Data</a></button>-->
+                                  <!--</td>-->
+                              </tr>
+                          {% endfor %}
+                      {% endif %}
+                      
+    
+                      <!--<tr ng-show="!processes.length" id="id_nothing_running">-->
+                      <!--    <td colspan="4">-->
+                      <!--        <i>Nothing running (hit the small refresh icon above-->
+                      <!--        and to the right of this list to update it)</i>-->
+                      <!--    </td>-->
+                      <!--</tr>-->
+                  </tbody>
+    
+              </table>
+    
+            <!--<table id="id_console_list_table" class="hoverable console_table">-->
+            
+            <!--    <tr>-->
+            <!--        <td><i>You have no sessions. Click a link above to start one.</i>-->
+            <!--            <div class="well exposition">-->
+            <!--              <p>-->
+            <!--                Start a <b>session</b> using the form above.-->
+            <!--            </div>-->
+    
+            <!--        </td>-->
+            <!--    </tr>-->
+            
+            <!--</table>-->
+    
+          </div>
+    
+          <!--<div ng-controller="ngProcessManagerController">-->
+    
+          <!--    <div class="row">-->
+          <!--        <div class="span7">-->
+          <!--            <h3>Running sessions</h3>-->
+          <!--        </div>-->
+          <!--    </div>-->
+    
+              <!--<div ng-show="!fetched_yet">-->
+              <!--    <button ng-click="refresh()">-->
+              <!--        <i id="id_fetch_process_list" class="icon-refresh"></i>-->
+              <!--        Fetch process list-->
+              <!--    </button>-->
+              <!--</div>-->
+    
+              <!--<div class="alert alert-warn" ng-show="ajax_error" ng-cloak>-->
+              <!--    Error fetching list of running processes.-->
+              <!--</div>-->
+    
+          <!--    <table id="id_running_processes" class="table table-striped table-hover table-condensed" ng-show="!ajax_error && fetched_yet" ng-cloak>-->
+          <!--        <thead>-->
+          <!--            <tr>-->
+          <!--                <th>Name</th>-->
+          <!--                <th>Time started</th>-->
+          <!--                <th>Session Type</th>-->
+          <!--                <th>Players</th>-->
+          <!--                <th>End Session</th>-->
+          <!--                <th>More Info</th>-->
+                              
+                              <!--<button id="id_refresh_process_list" ng-click="refresh()">-->
+                              <!--    <i class="icon-refresh"></i>-->
+                              <!--</button>-->
+                          
+          <!--            </tr>-->
+          <!--        </thead>-->
+    
+          <!--        <tbody id="session_list">-->
+          <!--            {% if live_sessions %}-->
+          <!--                {% for session in live_sessions %}-->
+          <!--                    <tr class="hoverable">-->
+          <!--                    {% for element in session %}-->
+          <!--                        <td>{{ element }}</td>-->
+          <!--                    {% endfor %}-->
+          <!--                        <td>-->
+                                      <!--<a class="btn btn-danger" href="/kill_session">End</a>-->
+          <!--                            <button id={{session.0}} class="button btn-danger"><a href="/profile">End</a></button>-->
+          <!--                        </td>-->
+          <!--                        <td>-->
+                                      <!--<a class="btn btn-danger" href="/kill_session">End</a>-->
+          <!--                            <button id={{session.0}} class="button btn-info"><a href="/player_state/{{session.0}}">Info</a></button>-->
+          <!--                        </td>-->
+          <!--                    </tr>-->
+          <!--                {% endfor %}-->
+          <!--            {% endif %}-->
+                      
+    
+                      <!--<tr ng-show="!processes.length" id="id_nothing_running">-->
+                      <!--    <td colspan="4">-->
+                      <!--        <i>Nothing running (hit the small refresh icon above-->
+                      <!--        and to the right of this list to update it)</i>-->
+                      <!--    </td>-->
+                      <!--</tr>-->
+          <!--        </tbody>-->
+    
+          <!--    </table>-->
+    
+          <!--  </div>-->
+        </div>
+    
+    
+            
+    
+    
+            <div id="id_feedback_dialog" title="Help us improve" style="display:none">
+        <div id="id_feedback_dialog_blurb_big" class="dialog_blurb_big">
+            It's always a pleasure to hear from you!
+        </div>
+        <div id="id_feedback_dialog_blurb_small">
+            Ask us a question, or tell us what you love or hate about PythonAnywhere.<br/>
+            We'll get back to you over email ASAP.
+        </div>
+        <textarea id="id_feedback_dialog_text" rows="6"></textarea>
+        <input id="id_feedback_dialog_email_address" type="text" placeholder="Email address (optional - only necessary if you would like us to contact you)"/>
+        
+        <div id="id_feedback_dialog_error" class="pa_hidden">
+            Sorry, there was an error connecting to the server. <br/>Please try again in a few moments...
+        </div>
+        <div class="dialog_buttons">
+            <!--<img id="id_feedback_dialog_spinner" src="/static/anywhere/images/spinner-small.gif" />-->
+            <button class="btn btn-primary" id="id_feedback_dialog_ok_button">OK</button>
+            <button class="btn" id="id_feedback_dialog_cancel_button">Cancel</button>
+        </div>
+    </div>
+
+    </body>
+    <script type="text/javascript" src="{% static "js/profile.js" %}"></script>
+    <!--<script type="text/javascript" src='{% static 'bootstrap-validator/dist/validator.min.js' %}'></script>-->
+</html>
+
