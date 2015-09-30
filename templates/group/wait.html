@@ -3,6 +3,7 @@
 
 {% block body_block %}
     <!-- Page Content -->
+    <title>Waiting Page</title>
     <div id="page-content-wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -14,6 +15,12 @@
                     <!--</div>-->
                     <p>You will be redirected as soon as all
                         players are ready. <br>Please wait.</p>
+                    <form class="table-3-center" action="/Category3Dams/p{{num}}" method="post">
+                            {% csrf_token %}
+                            <p><b>Have you been stuck waiting for awhile?</b></p>        
+                            <p class="inline continue">Please press CONTINUE every minute or so to check if you are ready to continue.</p>
+                            <input id="continue" class="btn btn-primary next" value="Continue" type="submit">
+                    </form>
                     <!--<div>-->
                     <!--    <button type="button" class="btn btn-primary next" onclick="ajaxGetPage('p2')">Continue</button>-->
                         <!--determine better way of fixing id-->
@@ -57,6 +64,17 @@
             dataType: 'html'
         });
     };
+
+    function updatePage(data, textStatus, jqXHR){
+        if (data) {
+            var data = $.parseHTML(data);
+            $("body").empty()
+            for (var i=0; i<data.length; i++){
+              $("body").append(data[i])
+            }
+            clearInterval(refresh)
+        }
+    }
     
     // handles the returned html/data from Django
     // clears existing body, then replaces it with returned html

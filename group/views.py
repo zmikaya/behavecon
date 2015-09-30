@@ -221,6 +221,11 @@ def Category3Dams(request, num="0"):
                 message = "The session name is incorrect. Try again."
                 context_dict = {"message": message}
                 return render(request, 'group/Category3Dams.html', context_dict)
+            db_usernames = [element.username for element in Player.objects.all()]
+            if username in db_usernames:
+                message = "The username has already been used. Try something else."
+                context_dict = {"message": message}
+                return render(request, 'group/Category3Dams.html', context_dict)
             if not session[0].active_players:
                 session[0].active_players = json.dumps([username])
                 session[0].save()
@@ -250,6 +255,10 @@ def Category3Dams(request, num="0"):
             return checkSType(request, num, context_dict)
         else:
             print "is something wrong"
+            if request.method == "POST" and "button_flag" in request.POST.keys() and request.POST["button_flag"] == "true":
+                print "here"
+                return render(request, 'group/Category3Dams_p1.html', context_dict)
+                
             # return player_check
     # elif num == "2":
     #     player_check = check_initial_wait(request, num)
@@ -472,7 +481,7 @@ def Category3Dams(request, num="0"):
             damChoice = request.POST['damChoice']
             request.session['damChoice'] = damChoice
             addPlayerData(request.session["username"], {"damChoice": damChoice})
-        return checkWait(request, num, context_dict, flag=False)
+        return checkWait(request, num, context_dict, flag=True) # check flag=False
         # return render(request, 'group/Category3Dams_p18.html', context_dict)
     elif num == "19":
         update_player_state(request.session["username"], num)
@@ -506,7 +515,7 @@ def Category3Dams(request, num="0"):
             print "here"
             chat_room = request.session["chat_room"]
             set_num = request.session["info_set"]
-            damChoice = request.session['damChoice'][0]
+            damChoice = request.session['damChoice']
             # set the template extend path
             context_dict = {'template': 'group/Category3Dams_p21.html', 'damChoice': damChoice, 'username': request.session["username"], "chat_room": chat_room}
             return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
@@ -527,7 +536,7 @@ def Category3Dams(request, num="0"):
         else:
             chat_room = request.session["chat_room"]
             set_num = request.session["info_set"]
-            damChoice = request.session['damChoice'][0]
+            damChoice = request.session['damChoice']
             # set the template extend path
             context_dict = {'template': 'group/Category3Dams_p23.html', 'damChoice': damChoice, 'username': request.session["username"], "chat_room": chat_room}
             return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
@@ -549,7 +558,7 @@ def Category3Dams(request, num="0"):
         else:
             chat_room = request.session["chat_room"]
             set_num = request.session["info_set"]
-            damChoice = request.session['damChoice'][0]
+            damChoice = request.session['damChoice']
             # set the template extend path
             context_dict = {'template': 'group/Category3Dams_p25.html', 'damChoice': damChoice, 'username': request.session["username"], "chat_room": chat_room}
             return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
@@ -652,23 +661,28 @@ def check_initial_wait(request, num):
         session = Session.objects.filter(name=session)
         active_players = json.loads(session[0].active_players)
         print session[0].players
+        # if 3 == 3:
         if len(active_players) == int(session[0].players):
             return True
         else:
-            print "what I expect"
+            print "not enough active players"
             # return render(request, 'group/wait.html', {"num": num})
             return HttpResponse('')
         
 def checkWait(request, num, context_dict, check=False, flag=True):
-    if request.method == "POST" and flag:
+    if request.method == "POST" and flag: # why do we have the flag
         session = request.session["session"]
         chat_room = request.session["chat_room"]
-        players = Player.objects.filter(session=session, chat_room=chat_room, state=num)
-        if 3 == len(players): # change to len(players)
-        # if len(players) == 3:
+        players = Player.objects.filter(session=session, chat_room=chat_room)
+        players = [player for player in players if int(player.state) >= int(num)]
+        print players
+        # if 3 == 3: # change to len(players)
+        if len(players) == 3:
             if check == True:
                 return True
             return render(request, 'group/Category3Dams_p{0}.html'.format(num), context_dict)
+        # don't break js by returning a new page via ajax
+        # if "button_flag" in request.POST.keys() and request.POST["button_flag"] == "true":
         if request.session["stype"] == 0:
             return render(request, 'group/wait.html', {"num": num})
         if request.session["stype"] == 1:

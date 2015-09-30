@@ -83,10 +83,13 @@ def chat_api(request):
 		user = request.session["chat_user"]
 		room = request.session["chat_room"]
 		page = request.session["chat_page"]
-		gravatar = request.user.profile.gravatar_url
+		try:
+			gravatar = request.user.profile.gravatar_url
+		except:
+			gravatar = "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?d=identicon"
+	
 		m = Message(user=user, room=room, page=page, message=msg,gravatar=gravatar)
 		m.save()
-
 
 		res = {'id':m.id,'msg':m.message,'user':m.user,'time':m.time.strftime('%I:%M:%S %p').lstrip('0'),'gravatar':m.gravatar}
 		data = json.dumps(res)
