@@ -24,12 +24,12 @@ from django.http import HttpResponse
 def index(request):
     return render(request, 'group/index.html')
 
-@ensure_csrf_cookie 
+@ensure_csrf_cookie
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        
+
         user = authenticate(username=username, password=password)
 
         if user:
@@ -40,7 +40,7 @@ def login_user(request):
         else:
             failure = {'reason': "Invalid login attempt."}
             return render(request, "group/controls/login.html", failure)
-            
+
     return render(request, 'group/controls/login.html')
 
 @login_required
@@ -55,7 +55,7 @@ def profile(request):
         dead_session_list.append([session.name, session.date, getSessionType(session.stype), session.players])
     context_dict = {"live_sessions": live_session_list, "dead_sessions": dead_session_list}
     return render(request, 'group/controls/profile.html', context_dict)
-    
+
 @login_required
 def create_session(request):
     if request.method == "POST":
@@ -136,7 +136,7 @@ def get_data(request, session):
     for row in data:
         writer.writerow(row)
     # return response
-    
+
 @login_required
 def get_chat_data(request, session):
     import csv
@@ -157,16 +157,16 @@ def get_chat_data(request, session):
         # 		res.append({'id':msgs.id,'user':msgs.user,'msg':msgs.message,'time':msgs.time.strftime('%I:%M:%S %p').lstrip('0'),'gravatar':msgs.gravatar})
         	    writer.writerow([msgs.user + ": " + msgs.message])
     return response
-    
+
 
 def getSessionType(num):
     sessionTypes = {"0": "Category 3Dams", "1": "Free 3Dams", "2": "Priming 3Dams"}
     num = str(num)
     if num in sessionTypes.keys():
         return sessionTypes[num]
-    else: 
+    else:
         return "None"
-        
+
 @login_required
 def end_session(request):
     if request.method == "POST":
@@ -176,7 +176,7 @@ def end_session(request):
             s[0].live = 0
             s[0].save()
     return HttpResponse('')
-    
+
 @login_required
 def get_player_states(request, session):
     players = Player.objects.filter(session=session)
@@ -190,12 +190,12 @@ def get_player_states(request, session):
         data.append(row)
     context_dict = {"data": data}
     return render(request, "group/controls/player_states.html", context_dict)
-    
+
 @login_required
 def logout_user(request):
     logout(request)
     return render(request, 'group/index.html')
-    
+
 @ensure_csrf_cookie
 def Category3Dams(request, num="0"):
     '''All of the pages are handled via this function. The ajax requests
@@ -258,7 +258,7 @@ def Category3Dams(request, num="0"):
             if request.method == "POST" and "button_flag" in request.POST.keys() and request.POST["button_flag"] == "true":
                 print "here"
                 return render(request, 'group/Category3Dams_p1.html', context_dict)
-                
+
             # return player_check
     # elif num == "2":
     #     player_check = check_initial_wait(request, num)
@@ -348,7 +348,7 @@ def Category3Dams(request, num="0"):
             addPlayerData(request.session["username"], {"dam3": dam3})
         update_player_state(request.session["username"], num)
         dam1 = request.session['dam1']
-        
+
         dam2 = request.session['dam2']
         # try:
         #     dam3 = request.session['dam3']
@@ -593,8 +593,8 @@ def Category3Dams(request, num="0"):
     elif num == "28":
         update_player_state(request.session["username"], num)
         return render(request, 'group/Category3Dams_p28.html', context_dict)
-    
-        
+
+
 def Free3Dams(request, num):
     context_dict = {}
     stop = stop_backpage(request, num)
@@ -654,7 +654,7 @@ def Free3Dams(request, num):
     elif num == "22":
         update_player_state(request.session["username"], num)
         return render(request, 'group/Free3Dams/Free3Dams_p22.html', context_dict)
-        
+
 def check_initial_wait(request, num):
     if request.method == "POST":
         session = request.session["session"]
@@ -668,7 +668,7 @@ def check_initial_wait(request, num):
             print "not enough active players"
             # return render(request, 'group/wait.html', {"num": num})
             return HttpResponse('')
-        
+
 def checkWait(request, num, context_dict, check=False, flag=True):
     if request.method == "POST" and flag: # why do we have the flag
         session = request.session["session"]
@@ -695,7 +695,7 @@ def checkWait(request, num, context_dict, check=False, flag=True):
         return render(request, 'group/Free3Dams/wait.html', {"num": num})
     if request.session["stype"] == 2:
         return render(request, 'group/Priming3Dams/wait.html', {"num": num})
-        
+
 def add_data(request, key):
         username = request.session["username"]
         player = Player.objects.filter(username=username)[0]
@@ -706,8 +706,8 @@ def add_data(request, key):
         if key not in ans_dict.keys():
             return True
         return False
-        
-        
+
+
 def getInfoSet(request):
     '''attempt to retrieve info_set from the session
         if no info_set then generate one randomly format
@@ -716,15 +716,15 @@ def getInfoSet(request):
     if request.session['set_num']:
         return request.session['set_num']
     return randomInfoSet()
-        
-        
+
+
 def randomInfoSet():
     '''this function determins which info_set to present to the user
         this is only a temporary implementation
     '''
-    
+
     return randint(1,3)
-    
+
 # def create_player(request, username, session):
 #     from random import randint
 #     if not "group" in request.session.keys():
@@ -743,7 +743,7 @@ def randomInfoSet():
 #         session.groups = json.dumps(groups)
 #         session.save()
 #         request.session["group"] = group
-        
+
 #     if not "info_set" and not "chat_room" in request.session.keys():
 #         if groups[str(group)] < 0:
 #             chat_room = create_chat_room()
@@ -762,7 +762,7 @@ def randomInfoSet():
 #     p = Player(username=username, session=session.name, group=group, info_set=info_set, state=state, chat_room=chat_room)
 #     p.save()
 #     return
-    
+
 def create_player(request, username, session):
     '''this function determins which info_set to present to the user
         and creates the player in the db
@@ -776,7 +776,7 @@ def create_player(request, username, session):
         info_set = randint(1,3)
         state = 2
         chat_room = create_chat_room()
-        
+
         print "chat_room", chat_room
         p = Player(username=username, session=session.name, group=group, info_set=info_set, state=state, chat_room=chat_room)
         p.save()
@@ -791,7 +791,8 @@ def create_player(request, username, session):
             chat_room = Player.objects.filter(session=session.name, group=group)[0].chat_room
             info_sets = [player.info_set for player in Player.objects.filter(session=session.name, group=group)]
             available_info_sets = list({1,2,3} - set(info_sets))
-            info_set = available_info_sets[randint(0,len(available_info_sets))]
+            info_set = available_info_sets[randint(0,len(available_info_sets)-1)]
+
         else:
             chat_room = create_chat_room()
             info_set = randint(1,3)
@@ -804,7 +805,7 @@ def create_player(request, username, session):
         session.groups = json.dumps(groups)
         session.save()
         return
-    
+
 def addPlayerData(username, data):
     player = Player.objects.filter(username=username)[0]
     if not player.answers:
@@ -820,7 +821,7 @@ def create_chat_room():
     import random
     randRoom = ''.join(random.choice('0123456789ABCDEF') for i in range(10))
     return randRoom
-    
+
 def update_player_state(username, num):
     player = Player.objects.filter(username=username)[0]
     if player.time:
@@ -866,43 +867,42 @@ def stop_backpage(request, num):
         return True
     print "stop3"
     return True
-    
+
 
 def checkSType(request, num, context_dict, set_num=False):
     print type(request.session["stype"])
     if request.session["stype"] == 0:
         print "wrong"
         if set_num:
-            context_dict['template'] = 'group/Category3Dams_p{0}.html'.format(num) 
+            context_dict['template'] = 'group/Category3Dams_p{0}.html'.format(num)
             return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
         return render(request, 'group/Category3Dams_p{0}.html'.format(num), context_dict)
     if request.session["stype"] == 1:
         # print "Free", request.session["chat_room"]
         if set_num:
-            context_dict['template'] = 'group/Free3Dams/Free3Dams_p{0}.html'.format(num) 
+            context_dict['template'] = 'group/Free3Dams/Free3Dams_p{0}.html'.format(num)
             return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
         return render(request, 'group/Free3Dams/Free3Dams_p{0}.html'.format(num), context_dict)
     if request.session["stype"] == 2:
         # print "here"
         if set_num:
-            context_dict['template'] = 'group/Priming3Dams/Priming3Dams_p{0}.html'.format(num) 
+            context_dict['template'] = 'group/Priming3Dams/Priming3Dams_p{0}.html'.format(num)
             return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
         return render(request, 'group/Priming3Dams/Priming3Dams_p{0}.html'.format(num), context_dict)
-        
+
 def skip_pages(num):
     # pages to skip
     pages = [8, 9, 12, 13, 14, 15, 16, 17]
     try:
-        num = int(num)    
+        num = int(num)
         while int(num) in pages:
             num += 1
         return str(num)
     except ValueError:
         return num
-        
+
 def admin_options(context_dict):
     payment = False
     context_dict["payment_flag"] = payment
     return context_dict
-    
-        
+
