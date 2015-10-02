@@ -683,6 +683,11 @@ def checkWait(request, num, context_dict, check=False, flag=True):
             return render(request, 'group/Category3Dams_p{0}.html'.format(num), context_dict)
         # don't break js by returning a new page via ajax
         # if "button_flag" in request.POST.keys() and request.POST["button_flag"] == "true":
+        # check if the request is via ajax or a form/button
+        # only return something if it is the latter
+        if "ajax" in request.POST.keys():
+            print "ajax"
+            return HttpResponse('')
         if request.session["stype"] == 0:
             return render(request, 'group/wait.html', {"num": num})
         if request.session["stype"] == 1:

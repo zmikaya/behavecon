@@ -59,6 +59,7 @@
           url: "/Priming3Dams/p{{num}}",
           data: {
               'csrfmiddlewaretoken': csrftoken,
+              'ajax': JSON.stringify(1),
             },
             success: updatePage,
             dataType: 'html'
