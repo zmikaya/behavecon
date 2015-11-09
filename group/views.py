@@ -79,6 +79,66 @@ def create_session(request):
             print 'error'
     return
 
+# @login_required
+# def get_data(request, session):
+#     import csv
+#     response = HttpResponse(content_type='text/csv')
+#     response['Content-Disposition'] = 'attachment; filename="{0}.csv"'.format(session)
+#     writer = csv.writer(response)
+#     players = Player.objects.filter(session=session)
+#     keys = ''
+#     page_time_keys = ''
+#     for player in players:
+#         if not keys:
+#             keys = sorted(json.loads(player.answers).keys())
+#         if keys and len(sorted(json.loads(player.answers).keys())) > keys:
+#             keys = sorted(json.loads(player.answers).keys())
+#         # add header data for time
+#         if not page_time_keys:
+#             visited_pages = sorted(json.loads(player.time).keys())[:-1]
+#             visited_pages = sorted([int(element) for element in visited_pages])
+#             page_time_keys = range(3, int(visited_pages[-1])+1)
+#         if page_time_keys:
+#             visited_pages = sorted(json.loads(player.time).keys())[:-1]
+#             visited_pages = sorted([int(element) for element in visited_pages])
+#             if visited_pages[-1] > page_time_keys[-1]:
+#                 page_time_keys = range(3, int(visited_pages[-1])+1)
+#     header = ["username", "session", "type", "group", "info_set"]
+#     key_ans_length = dict((el,0) for el in keys)
+#     for key in keys:
+#         print key
+#         for i in range(len(json.loads(players[0].answers)[key])): # fix single player dependency
+#             key_ans_length[key] += 1
+#             header.append(key + '-' + str(i+1))
+#     header += page_time_keys
+#     print page_time_keys
+#     data = []
+#     data.insert(0, header)
+#     for player in players: # fix single player dependency
+#         username = player.username
+#         stype = Session.objects.filter(name=session)[0].stype
+#         group = player.group
+#         info_set = player.info_set
+#         row = [username, session, stype, group, info_set]
+#         for key in keys:
+#             try:
+#                 row += json.loads(player.answers)[key]
+#             except KeyError:
+#                 # find out how many cells to fill
+#                 count = key_ans_length[key]
+#                 row += ['No Response']*count
+#         for page in page_time_keys:
+#             visited_pages = json.loads(player.time)
+#             try:
+#                 # row += visited_pages[str(page)]
+#                 row.append(visited_pages[str(page)])
+#             except KeyError:
+#                 row.append('No Data')
+#         data.append(row)
+#     for row in data:
+#         writer.writerow(row)
+    # return response
+    
 @login_required
 def get_data(request, session):
     import csv
@@ -86,34 +146,27 @@ def get_data(request, session):
     response['Content-Disposition'] = 'attachment; filename="{0}.csv"'.format(session)
     writer = csv.writer(response)
     players = Player.objects.filter(session=session)
-    keys = ''
-    page_time_keys = ''
-    for player in players:
-        if not keys:
-            keys = sorted(json.loads(player.answers).keys())
-        if keys and len(sorted(json.loads(player.answers).keys())) > keys:
-            keys = sorted(json.loads(player.answers).keys())
-        # add header data for time
-        if not page_time_keys:
-            visited_pages = sorted(json.loads(player.time).keys())[:-1]
-            visited_pages = sorted([int(element) for element in visited_pages])
-            page_time_keys = range(3, int(visited_pages[-1])+1)
-        if page_time_keys:
-            visited_pages = sorted(json.loads(player.time).keys())[:-1]
-            visited_pages = sorted([int(element) for element in visited_pages])
-            if visited_pages[-1] > page_time_keys[-1]:
-                page_time_keys = range(3, int(visited_pages[-1])+1)
-            print page_time_keys
-    header = ["username", "session", "type", "group", "info_set"]
-    key_ans_length = dict((el,0) for el in keys)
-    for key in keys:
-        for i in range(len(json.loads(players[0].answers)[key])): # fix single player dependency
-            key_ans_length[key] += 1
-            header.append(key + '-' + str(i+1))
-    header += page_time_keys
+    stype = Session.objects.filter(name=session)[0].stype
+    # load the header file
+    with open('header.csv', 'rb') as f:
+        reader = csv.reader(f)
+        header = list(reader)
+    # remove empty strings where necessary
     data = []
-    data.insert(0, header)
-    for player in players: # fix single player dependency
+    
+    for i in range(len(header)):
+        header[i] = filter(None, header[i])
+    if int(stype) == 0:
+        key_ans_length = {'dam1_group': 6, 'dam2_group': 6, 'dam3_group': 6, 'damChoiceGroup': 1, 'damChoice': 5}
+        keys = key_ans_length.keys()
+        page_time_keys = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+        data.insert(0, header[0])
+    else:
+        key_ans_length = {'damChoiceGroup': 5, 'damChoice': 5}
+        keys = key_ans_length.keys()
+        page_time_keys = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+        data.insert(0, header[1])
+    for player in players:
         username = player.username
         stype = Session.objects.filter(name=session)[0].stype
         group = player.group
@@ -121,7 +174,12 @@ def get_data(request, session):
         row = [username, session, stype, group, info_set]
         for key in keys:
             try:
-                row += json.loads(player.answers)[key]
+                value = json.loads(player.answers)[key]
+                if type(value) == unicode:
+                    print value
+                    row += [value]
+                else:
+                    row += json.loads(player.answers)[key]
             except KeyError:
                 # find out how many cells to fill
                 count = key_ans_length[key]
@@ -129,13 +187,14 @@ def get_data(request, session):
         for page in page_time_keys:
             visited_pages = json.loads(player.time)
             try:
-                row += visited_pages[str(page)]
+                # row += visited_pages[str(page)]
+                row.append(visited_pages[str(page)])
             except KeyError:
-                row += 'No Data'
+                row.append('No Data')
         data.append(row)
     for row in data:
         writer.writerow(row)
-    # return response
+    return response
 
 @login_required
 def get_chat_data(request, session):
@@ -481,8 +540,8 @@ def Category3Dams(request, num="0"):
             damChoice = request.POST['damChoice']
             request.session['damChoice'] = damChoice
             addPlayerData(request.session["username"], {"damChoice": damChoice})
-        return checkWait(request, num, context_dict, flag=True) # check flag=False
-        # return render(request, 'group/Category3Dams_p18.html', context_dict)
+        # return checkWait(request, num, context_dict, flag=True) # check flag=False
+        return render(request, 'group/Category3Dams_p18.html', context_dict)
     elif num == "19":
         update_player_state(request.session["username"], num)
         set_num = request.session["info_set"]
@@ -494,7 +553,11 @@ def Category3Dams(request, num="0"):
             damChoice = request.session['damChoice']
         # set the template extend path
         context_dict = {'damChoice': damChoice, 'username': request.session["username"], "chat_room": chat_room}
-        return checkSType(request, num, context_dict, set_num)
+        out = checkWait(request, num, context_dict, check=True)
+        if out != True:
+            return out
+        else:
+            return checkSType(request, num, context_dict, set_num)
         # return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
     elif num == "20":
         update_player_state(request.session["username"], num)
@@ -613,7 +676,11 @@ def Free3Dams(request, num):
         damChoice = request.session['damChoice'][0]
         # set the template extend path
         context_dict = {'damChoice': damChoice, 'username': request.session["username"], "chat_room": chat_room}
-        return checkSType(request, num, context_dict, set_num)
+        out = checkWait(request, num, context_dict, check=True)
+        if out != True:
+            return out
+        else:
+            return checkSType(request, num, context_dict, set_num)
         # return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
     elif num == "20":
         update_player_state(request.session["username"], num)
@@ -675,7 +742,7 @@ def checkWait(request, num, context_dict, check=False, flag=True):
         chat_room = request.session["chat_room"]
         players = Player.objects.filter(session=session, chat_room=chat_room)
         players = [player for player in players if int(player.state) >= int(num)]
-        print players
+        print 'test', players
         # if 3 == 3: # change to len(players)
         if len(players) == 3:
             if check == True:
