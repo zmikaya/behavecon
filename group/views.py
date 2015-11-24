@@ -78,66 +78,6 @@ def create_session(request):
         except IntegrityError:
             print 'error'
     return
-
-# @login_required
-# def get_data(request, session):
-#     import csv
-#     response = HttpResponse(content_type='text/csv')
-#     response['Content-Disposition'] = 'attachment; filename="{0}.csv"'.format(session)
-#     writer = csv.writer(response)
-#     players = Player.objects.filter(session=session)
-#     keys = ''
-#     page_time_keys = ''
-#     for player in players:
-#         if not keys:
-#             keys = sorted(json.loads(player.answers).keys())
-#         if keys and len(sorted(json.loads(player.answers).keys())) > keys:
-#             keys = sorted(json.loads(player.answers).keys())
-#         # add header data for time
-#         if not page_time_keys:
-#             visited_pages = sorted(json.loads(player.time).keys())[:-1]
-#             visited_pages = sorted([int(element) for element in visited_pages])
-#             page_time_keys = range(3, int(visited_pages[-1])+1)
-#         if page_time_keys:
-#             visited_pages = sorted(json.loads(player.time).keys())[:-1]
-#             visited_pages = sorted([int(element) for element in visited_pages])
-#             if visited_pages[-1] > page_time_keys[-1]:
-#                 page_time_keys = range(3, int(visited_pages[-1])+1)
-#     header = ["username", "session", "type", "group", "info_set"]
-#     key_ans_length = dict((el,0) for el in keys)
-#     for key in keys:
-#         print key
-#         for i in range(len(json.loads(players[0].answers)[key])): # fix single player dependency
-#             key_ans_length[key] += 1
-#             header.append(key + '-' + str(i+1))
-#     header += page_time_keys
-#     print page_time_keys
-#     data = []
-#     data.insert(0, header)
-#     for player in players: # fix single player dependency
-#         username = player.username
-#         stype = Session.objects.filter(name=session)[0].stype
-#         group = player.group
-#         info_set = player.info_set
-#         row = [username, session, stype, group, info_set]
-#         for key in keys:
-#             try:
-#                 row += json.loads(player.answers)[key]
-#             except KeyError:
-#                 # find out how many cells to fill
-#                 count = key_ans_length[key]
-#                 row += ['No Response']*count
-#         for page in page_time_keys:
-#             visited_pages = json.loads(player.time)
-#             try:
-#                 # row += visited_pages[str(page)]
-#                 row.append(visited_pages[str(page)])
-#             except KeyError:
-#                 row.append('No Data')
-#         data.append(row)
-#     for row in data:
-#         writer.writerow(row)
-    # return response
     
 @login_required
 def get_data(request, session):
@@ -161,10 +101,11 @@ def get_data(request, session):
         keys = key_ans_length.keys()
         page_time_keys = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
         data.insert(0, header[0])
+        print data
     else:
         key_ans_length = {'damChoiceGroup': 5, 'damChoice': 5}
         keys = key_ans_length.keys()
-        page_time_keys = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+        page_time_keys = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
         data.insert(0, header[1])
     for player in players:
         username = player.username
@@ -239,16 +180,36 @@ def end_session(request):
 @login_required
 def get_player_states(request, session):
     players = Player.objects.filter(session=session)
+    stype = Session.objects.filter(name=session)[0].stype
+    stype = int(stype)
     # header = ["username", "session", "group", "location"]
     data = []
     for player in players:
         username = player.username
         group = player.group
-        location = player.state
+        location = get_page_name(int(player.state), int(stype))
         row = [username, session, group, location]
         data.append(row)
     context_dict = {"data": data}
     return render(request, "group/controls/player_states.html", context_dict)
+    
+def get_page_name(state, stype):
+    import csv
+    with open('page_map.csv', 'rb') as f:
+        reader = csv.reader(f)
+        names = list(reader)
+    for i in range(len(names)):
+        names[i] = filter(None, names[i])
+    if int(stype) == 0:
+        names = names[0]
+    else:
+        names = names[1]
+    try:
+        print state
+        name = names[int(state) - 2]
+    except IndexError:
+        return state
+    return name
 
 @login_required
 def logout_user(request):
