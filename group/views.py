@@ -526,10 +526,12 @@ def Category3Dams(request, num="0"):
         # return render(request, 'group/Category3Dams_p20.html', context_dict)
     elif num == "21":
         update_player_state(request.session["username"], num)
-        if request.method == "POST" and "data" in request.POST.keys() and add_data(request, "dam1_group"):
+        if request.method == "POST" and add_data(request, "dam1_group") and "ajax" not in request.POST.keys():
+            print "posted"
             # get user selections for dam 1 and store in session
-            dam1 = request.POST['data']
-            dam1 = [str(element) for element in json.loads(dam1)]
+            print "trial: ", request.POST.keys()
+            dam1 = [request.POST[str(i)] for i in range(1,7)]
+            # dam1 = [str(element) for element in json.loads(dam1)]
             request.session['dam1_group'] = dam1
             addPlayerData(request.session["username"], {"dam1_group": dam1})
         out = checkWait(request, num, context_dict, check=True)
@@ -543,60 +545,128 @@ def Category3Dams(request, num="0"):
             # set the template extend path
             context_dict = {'template': 'group/Category3Dams_p21.html', 'damChoice': damChoice, 'username': request.session["username"], "chat_room": chat_room}
             return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
+        # update_player_state(request.session["username"], num)
+        # if request.method == "POST" and "data" in request.POST.keys() and add_data(request, "dam1_group"):
+        #     # get user selections for dam 1 and store in session
+        #     dam1 = request.POST['data']
+        #     dam1 = [str(element) for element in json.loads(dam1)]
+        #     request.session['dam1_group'] = dam1
+        #     addPlayerData(request.session["username"], {"dam1_group": dam1})
+        # out = checkWait(request, num, context_dict, check=True)
+        # if out != True:
+        #     return out
+        # else:
+        #     print "here"
+        #     chat_room = request.session["chat_room"]
+        #     set_num = request.session["info_set"]
+        #     damChoice = request.session['damChoice']
+        #     # set the template extend path
+        #     context_dict = {'template': 'group/Category3Dams_p21.html', 'damChoice': damChoice, 'username': request.session["username"], "chat_room": chat_room}
+        #     return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
     elif num == "22":
         update_player_state(request.session["username"], num)
         return render(request, 'group/Category3Dams_p22.html', context_dict)
     elif num == "23":
         update_player_state(request.session["username"], num)
-        if request.method == "POST" and "data" in request.POST.keys() and add_data(request, "dam2_group"):
+        if request.method == "POST" and add_data(request, "dam2_group") and "ajax" not in request.POST.keys():
+            print "posted"
             # get user selections for dam 1 and store in session
-            dam2 = request.POST['data']
-            dam2 = [str(element) for element in json.loads(dam2)]
+            print "trial: ", request.POST.keys()
+            dam2 = [request.POST[str(i)] for i in range(1,7)]
+            # dam1 = [str(element) for element in json.loads(dam1)]
             request.session['dam2_group'] = dam2
             addPlayerData(request.session["username"], {"dam2_group": dam2})
         out = checkWait(request, num, context_dict, check=True)
         if out != True:
             return out
         else:
+            print "here"
             chat_room = request.session["chat_room"]
             set_num = request.session["info_set"]
             damChoice = request.session['damChoice']
             # set the template extend path
             context_dict = {'template': 'group/Category3Dams_p23.html', 'damChoice': damChoice, 'username': request.session["username"], "chat_room": chat_room}
             return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
+        # update_player_state(request.session["username"], num)
+        # if request.method == "POST" and "data" in request.POST.keys() and add_data(request, "dam2_group"):
+        #     # get user selections for dam 1 and store in session
+        #     dam2 = request.POST['data']
+        #     dam2 = [str(element) for element in json.loads(dam2)]
+        #     request.session['dam2_group'] = dam2
+        #     addPlayerData(request.session["username"], {"dam2_group": dam2})
+        # out = checkWait(request, num, context_dict, check=True)
+        # if out != True:
+        #     return out
+        # else:
+        #     chat_room = request.session["chat_room"]
+        #     set_num = request.session["info_set"]
+        #     damChoice = request.session['damChoice']
+        #     # set the template extend path
+        #     context_dict = {'template': 'group/Category3Dams_p23.html', 'damChoice': damChoice, 'username': request.session["username"], "chat_room": chat_room}
+        #     return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
     elif num == "24":
         update_player_state(request.session["username"], num)
         return render(request, 'group/Category3Dams_p24.html', context_dict)
     elif num == "25":
         update_player_state(request.session["username"], num)
-        if request.method == "POST" and "data" in request.POST.keys() and add_data(request, "dam3_group"):
+        if request.method == "POST" and add_data(request, "dam3_group") and "ajax" not in request.POST.keys():
+            print "posted"
             # get user selections for dam 1 and store in session
-            dam3 = request.POST['data']
-            dam3 = [str(element) for element in json.loads(dam3)]
-            print dam3
+            print "trial: ", request.POST.keys()
+            dam3 = [request.POST[str(i)] for i in range(1,7)]
+            # dam1 = [str(element) for element in json.loads(dam1)]
             request.session['dam3_group'] = dam3
             addPlayerData(request.session["username"], {"dam3_group": dam3})
         out = checkWait(request, num, context_dict, check=True)
         if out != True:
             return out
         else:
+            print "here"
             chat_room = request.session["chat_room"]
             set_num = request.session["info_set"]
             damChoice = request.session['damChoice']
             # set the template extend path
             context_dict = {'template': 'group/Category3Dams_p25.html', 'damChoice': damChoice, 'username': request.session["username"], "chat_room": chat_room}
             return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
+        # update_player_state(request.session["username"], num)
+        # if request.method == "POST" and "data" in request.POST.keys() and add_data(request, "dam3_group"):
+        #     # get user selections for dam 1 and store in session
+        #     dam3 = request.POST['data']
+        #     dam3 = [str(element) for element in json.loads(dam3)]
+        #     print dam3
+        #     request.session['dam3_group'] = dam3
+        #     addPlayerData(request.session["username"], {"dam3_group": dam3})
+        # out = checkWait(request, num, context_dict, check=True)
+        # if out != True:
+        #     return out
+        # else:
+        #     chat_room = request.session["chat_room"]
+        #     set_num = request.session["info_set"]
+        #     damChoice = request.session['damChoice']
+        #     # set the template extend path
+        #     context_dict = {'template': 'group/Category3Dams_p25.html', 'damChoice': damChoice, 'username': request.session["username"], "chat_room": chat_room}
+        #     return render(request, 'group/info_sets/set{0}.html'.format(set_num), context_dict)
     elif num == "26":
         update_player_state(request.session["username"], num)
         return render(request, 'group/Category3Dams_p26.html', context_dict)
     elif num == "27":
-        if request.method == "POST" and "data" in request.POST.keys() and add_data(request, "damChoiceGroup"):
-            finalDam = request.POST["data"]
-            finalDam = [str(element) for element in json.loads(finalDam)]
-            request.session["damChoiceGroup"] = finalDam
-            addPlayerData(request.session["username"], {"damChoiceGroup": finalDam})
         update_player_state(request.session["username"], num)
+        if request.method == "POST" and add_data(request, "damChoiceGroup") and "ajax" not in request.POST.keys():
+            print "posted"
+            # get user selections for dam 1 and store in session
+            print "trial: ", request.POST.keys()
+            damChoiceGroup = [request.POST[str(1)]]
+            # dam1 = [str(element) for element in json.loads(dam1)]
+            request.session['damChoiceGroup'] = damChoiceGroup[0]
+            addPlayerData(request.session["username"], {"damChoiceGroup": damChoiceGroup})
         out = checkWait(request, num, context_dict, check=True)
+        # if request.method == "POST" and "data" in request.POST.keys() and add_data(request, "damChoiceGroup"):
+        #     finalDam = request.POST["data"]
+        #     finalDam = [str(element) for element in json.loads(finalDam)]
+        #     request.session["damChoiceGroup"] = finalDam
+        #     addPlayerData(request.session["username"], {"damChoiceGroup": finalDam})
+        # update_player_state(request.session["username"], num)
+        # out = checkWait(request, num, context_dict, check=True)
         if out != True:
             return out
         else:
@@ -848,6 +918,7 @@ def addPlayerData(username, data):
     ans_dict.update(data)
     player.answers = json.dumps(ans_dict)
     player.save()
+    print 'data store atempt: ', data
     return
 
 def create_chat_room():
